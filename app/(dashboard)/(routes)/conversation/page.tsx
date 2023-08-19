@@ -4,13 +4,18 @@ import { Heading } from '@/components/heading';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { api } from '@/lib/api';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { MessageSquare } from 'lucide-react';
+import { ChatCompletionRequestMessage } from 'openai-edge';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { formSchema } from './constants';
 
 function ConversationPage() {
+  const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -21,7 +26,23 @@ function ConversationPage() {
   const isLoading = form.formState.isSubmitting;
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    try {
+      const userMessage: ChatCompletionRequestMessage = {
+        role: 'user',
+        content: values.prompt,
+      };
+
+      const newMessages = [...messages, userMessage];
+
+      const response = await api.post('/api/conversation', {
+        messages: newMessages,
+      });
+
+      setMessages(state => [...state, userMessage, response.data]);
+    } catch (error: any) {
+      // TODO: Open Pro modal
+      console.log(error);
+    }
   }
 
   return (
@@ -64,7 +85,13 @@ function ConversationPage() {
             </form>
           </Form>
         </div>
-        <div className="mt-4 space-y-4">Messages Content</div>
+        <div className="mt-4 space-y-4">
+          <div className="flex flex-col-reverse gap-y-4">
+            {messages.map(message => (
+              <div key={message.content}>{message.content}</div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
