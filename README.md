@@ -11,6 +11,16 @@ This is a repository for Build a SaaS AI Platform with Next.js 13, React, Tailwi
 
 [VIDEO TUTORIAL](https://www.youtube.com/watch?v=ffJ38dBzrlY)
 
+## Features:
+
+- [x] Folder structure in Next 13 App Router
+- [x] Tailwind / Full responsiveness
+- [x] Clerk Authentication (Email and Social Logins)
+- [x] Client form validation and handling using react-hook-form
+- [x] OpenAI Tools (Image and conversation)
+- [ ] Stripe monthly subscription
+- [ ] Free tier with API limiting
+
 ### Cloning the repository
 
 ```shell
@@ -20,7 +30,33 @@ git clone https://github.com/alantomaiz/ai-saas
 ### Install packages
 
 ```shell
-npm i
+npm install
+```
+
+### Setup .env file
+
+```shell
+# Next
+NEXT_PUBLIC_URL=""
+
+# Clerk Auth
+CLERK_SECRET_KEY=""
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=""
+
+NEXT_PUBLIC_CLERK_SIGN_IN_URL="/sign-in"
+NEXT_PUBLIC_CLERK_SIGN_UP_URL="/sign-up"
+NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL="/dashboard"
+NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL="/dashboard"
+
+# OpenAI
+OPENAI_CLIENT_ID=""
+OPENAI_API_KEY=""
+```
+
+### Start the app
+
+```shell
+npm run dev
 ```
 
 ## Available commands
