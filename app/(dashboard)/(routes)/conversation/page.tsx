@@ -7,6 +7,7 @@ import { Loader } from '@/components/loader';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { useProModal } from '@/hooks/use-pro-modal';
 import { api } from '@/lib/api';
 import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -18,6 +19,7 @@ import * as z from 'zod';
 import { formSchema } from './constants';
 
 function ConversationPage() {
+  const { onOpen } = useProModal();
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -44,7 +46,10 @@ function ConversationPage() {
 
       setMessages(state => [...state, userMessage, response.data]);
     } catch (error: any) {
-      // TODO: Open Pro modal
+      if (error.response.status === 403) {
+        onOpen();
+      }
+
       console.log(error);
     }
   }

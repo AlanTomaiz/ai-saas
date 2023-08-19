@@ -14,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useProModal } from '@/hooks/use-pro-modal';
 import { api } from '@/lib/api';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Download, ImageIcon } from 'lucide-react';
@@ -24,6 +25,7 @@ import * as z from 'zod';
 import { amountOptions, formSchema, resolutionOptions } from './constants';
 
 function ImagePage() {
+  const { onOpen } = useProModal();
   const [images, setImages] = useState<string[]>([]);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -47,7 +49,10 @@ function ImagePage() {
 
       form.reset();
     } catch (error: any) {
-      // TODO: Open Pro modal
+      if (error.response.status === 403) {
+        onOpen();
+      }
+
       console.log(error);
     }
   }
