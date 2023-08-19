@@ -19,7 +19,7 @@ This is a repository for Build a SaaS AI Platform with Next.js 13, React, Tailwi
 - [x] Client form validation and handling using react-hook-form
 - [x] OpenAI Tools (Image and conversation)
 - [ ] Stripe monthly subscription
-- [ ] Free tier with API limiting
+- [x] Free tier with API limiting
 
 ### Cloning the repository
 
@@ -51,6 +51,18 @@ NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL="/dashboard"
 # OpenAI
 OPENAI_CLIENT_ID=""
 OPENAI_API_KEY=""
+
+# Prisma
+DATABASE_URL=""
+```
+
+### Setup Prisma
+
+Add MySQL Database (I used PlanetScale)
+
+```shell
+npx prisma db push
+
 ```
 
 ### Start the app
