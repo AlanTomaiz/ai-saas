@@ -1,10 +1,14 @@
 'use client';
 
+import { BotAvatar, UserAvatar } from '@/components/avatar';
+import { Empty } from '@/components/empty';
 import { Heading } from '@/components/heading';
+import { Loader } from '@/components/loader';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { api } from '@/lib/api';
+import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { MessageSquare } from 'lucide-react';
 import { ChatCompletionRequestMessage } from 'openai-edge';
@@ -86,9 +90,30 @@ function ConversationPage() {
           </Form>
         </div>
         <div className="mt-4 space-y-4">
+          {isLoading && (
+            <div className="flex w-full items-center justify-center rounded-lg bg-muted p-8">
+              <Loader />
+            </div>
+          )}
+
+          {messages.length === 0 && !isLoading && (
+            <Empty label="No conversation started" />
+          )}
+
           <div className="flex flex-col-reverse gap-y-4">
             {messages.map(message => (
-              <div key={message.content}>{message.content}</div>
+              <div
+                key={message.content}
+                className={cn(
+                  'w-full items-start gap-x-8 rounded-lg p-8',
+                  message.role === 'user'
+                    ? 'border border-black/10 bg-white'
+                    : 'bg-muted',
+                )}
+              >
+                {message.role === 'user' ? <UserAvatar /> : <BotAvatar />}
+                <p className="text-sm">{message.content}</p>
+              </div>
             ))}
           </div>
         </div>
