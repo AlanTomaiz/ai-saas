@@ -2,6 +2,7 @@
 
 import { api } from '@/lib/api';
 import { Zap } from 'lucide-react';
+import { toast } from 'react-hot-toast';
 import { Button } from './ui/button';
 
 interface SubscriptionButtonProps {
@@ -15,6 +16,7 @@ export function SubscriptionButton({ isPro }: SubscriptionButtonProps) {
       window.location.href = response.data.url;
     } catch (error) {
       console.log('BILLING_ERROR', error);
+      toast.error('Something went wrong');
     }
   }
 

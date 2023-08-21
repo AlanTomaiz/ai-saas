@@ -14,6 +14,7 @@ import { useProModal } from '@/hooks/use-pro-modal';
 import { api } from '@/lib/api';
 import { cn } from '@/lib/utils';
 import { Check, Code, ImageIcon, MessageSquare, Zap } from 'lucide-react';
+import { toast } from 'react-hot-toast';
 
 const tools = [
   {
@@ -45,6 +46,7 @@ export function ProModal() {
       window.location.href = response.data.url;
     } catch (error) {
       console.log('STRIPE_CLIENT_ERROR', error);
+      toast.error('Something went wrong');
     }
   }
 

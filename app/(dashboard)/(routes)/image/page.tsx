@@ -21,6 +21,7 @@ import { Download, ImageIcon } from 'lucide-react';
 import Image from 'next/image';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
 import * as z from 'zod';
 import { amountOptions, formSchema, resolutionOptions } from './constants';
 
@@ -51,9 +52,11 @@ function ImagePage() {
     } catch (error: any) {
       if (error.response.status === 403) {
         onOpen();
+        return;
       }
 
       console.log(error);
+      toast.error('Something went wrong');
     }
   }
 
