@@ -1,9 +1,9 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
 import { api } from '@/lib/api';
 import { Zap } from 'lucide-react';
 import { toast } from 'react-hot-toast';
-import { Button } from './ui/button';
 
 interface SubscriptionButtonProps {
   isPro: boolean;
