@@ -54,6 +54,14 @@ OPENAI_API_KEY=""
 
 # Prisma
 DATABASE_URL=""
+
+# Stripe
+STRIPE_WEBHOOK_KEY=""
+STRIPE_API_KEY=""
+NEXT_PUBLIC_STRIPE_PUBLIC_KEY=""
+
+# Crisp
+NEXT_PUBLIC_CRISP_ID=""
 ```
 
 ### Setup Prisma
