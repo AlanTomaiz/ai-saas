@@ -1,19 +1,13 @@
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
+import { LandingContent } from '@/components/landing-content';
+import { LandingHero } from '@/components/landing-hero';
+import { LandingNavibar } from '@/components/landing-navbar';
 
 function Home() {
   return (
-    <div>
-      <h1>Home Page (Public)</h1>
-      <br />
-      <hr />
-      <br />
-      <Link href="/sign-in">
-        <Button>SignIn</Button>
-      </Link>
-      <Link href="/sign-up">
-        <Button>SignUp</Button>
-      </Link>
+    <div className="h-full">
+      <LandingNavibar />
+      <LandingHero />
+      <LandingContent />
     </div>
   );
 }
