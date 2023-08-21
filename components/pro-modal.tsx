@@ -11,6 +11,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { useProModal } from '@/hooks/use-pro-modal';
+import { api } from '@/lib/api';
 import { cn } from '@/lib/utils';
 import { Check, Code, ImageIcon, MessageSquare, Zap } from 'lucide-react';
 
@@ -37,6 +38,15 @@ const tools = [
 
 export function ProModal() {
   const { isOpen, onClose } = useProModal();
+
+  async function handleSubscription() {
+    try {
+      const response = await api.get('/api/stripe');
+      window.location.href = response.data.url;
+    } catch (error) {
+      console.log('STRIPE_CLIENT_ERROR', error);
+    }
+  }
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -68,7 +78,12 @@ export function ProModal() {
           ))}
         </div>
         <DialogFooter>
-          <Button size="lg" variant="premium" className="w-full">
+          <Button
+            size="lg"
+            variant="premium"
+            className="w-full"
+            onClick={handleSubscription}
+          >
             Upgrade
             <Zap className="ml-2 h-4 w-4 fill-white" />
           </Button>

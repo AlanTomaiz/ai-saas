@@ -9,10 +9,15 @@ import { Zap } from 'lucide-react';
 
 interface FreeCounterProps {
   apiLimitCount: number;
+  userPremium: boolean;
 }
 
-export function FreeCounter({ apiLimitCount }: FreeCounterProps) {
+export function FreeCounter({ apiLimitCount, userPremium }: FreeCounterProps) {
   const { onOpen } = useProModal();
+
+  if (userPremium) {
+    return null;
+  }
 
   return (
     <div className="px-3">

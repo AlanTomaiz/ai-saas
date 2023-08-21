@@ -1,5 +1,6 @@
 import { checkApiLimit, increasedApiLimit } from '@/lib/api-limit';
 import { openai } from '@/lib/openai';
+import { checkSubscription } from '@/lib/subscription';
 import { auth } from '@clerk/nextjs';
 import { NextResponse } from 'next/server';
 import { ChatCompletionRequestMessage } from 'openai-edge';
@@ -25,7 +26,8 @@ export async function POST(req: Request) {
     }
 
     const freeTrial = await checkApiLimit();
-    if (!freeTrial) {
+    const isPremiumUser = await checkSubscription();
+    if (!freeTrial && !isPremiumUser) {
       return new NextResponse('Free trial has expired', { status: 403 });
     }
 
@@ -35,9 +37,11 @@ export async function POST(req: Request) {
       messages: [instructionMessage, ...messages],
     });
 
-    await increasedApiLimit();
-    const data = await response.json();
+    if (!isPremiumUser) {
+      await increasedApiLimit();
+    }
 
+    const data = await response.json();
     return NextResponse.json(data.choices[0].message);
   } catch (error) {
     console.log('[CODE_ERROR]', error);
